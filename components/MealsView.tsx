@@ -136,11 +136,10 @@ export default function MealsView({ userId }: { userId: string }) {
             <>
               <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-gray-200 dark:bg-gray-700 p-4 sm:p-5 md:p-6 rounded-lg animate-pulse h-32"></div>
               <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-gray-200 dark:bg-gray-700 p-4 sm:p-5 md:p-6 rounded-lg animate-pulse h-32"></div>
-              <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-gray-200 dark:bg-gray-700 p-4 sm:p-5 md:p-6 rounded-lg animate-pulse h-32"></div>
             </>
           ) : (
             <>
-          <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-blue-50 dark:bg-blue-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
+          <div className="flex-1 md:w-[50%] bg-blue-50 dark:bg-blue-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2">
               Total Meals
             </p>
@@ -149,7 +148,7 @@ export default function MealsView({ userId }: { userId: string }) {
             </p>
           </div>
 
-          <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-red-50 dark:bg-red-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
+          <div className="flex-1 md:w-[50%] bg-red-50 dark:bg-red-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2">
               Total Expenses
             </p>
@@ -158,7 +157,7 @@ export default function MealsView({ userId }: { userId: string }) {
             </p>
           </div>
 
-          <div className="flex-1 md:w-[calc(33.333%-1rem)] bg-purple-50 dark:bg-purple-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
+          <div className="flex-1 md:w-[50%] bg-purple-50 dark:bg-purple-900/20 p-4 sm:p-5 md:p-6 rounded-lg shadow-md">
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2">
               Current Balance
             </p>

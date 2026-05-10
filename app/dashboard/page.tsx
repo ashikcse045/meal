@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import SummaryCards from '@/components/SummaryCards';
 import ClientDashboard from '@/components/ClientDashboard';
 import PageContainer from '@/components/PageContainer';
+import { MealProvider } from '@/context/MealContext';
 
 export default async function DashboardPage() {
   let session = null;
@@ -48,12 +49,12 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Summary Cards - Only show for verified users */}
-      {session.user?.isVerified && <SummaryCards />}
-
-      {/* Forms Grid - Only show for verified users */}
+      {/* Summary Cards and Forms - Only show for verified users */}
       {session.user?.isVerified ? (
-        <ClientDashboard userId={session.user?.id || 'user123'} />
+        <MealProvider>
+          <SummaryCards userId={session.user?.id || 'user123'} />
+          <ClientDashboard userId={session.user?.id || 'user123'} />
+        </MealProvider>
       ) : (
         <div className="bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-12 text-center">
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
