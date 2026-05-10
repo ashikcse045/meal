@@ -29,31 +29,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Check if user already exists
         const existingUser = await db.collection('users').findOne({ email: user.email });
         
-        if (existingUser) {
-          // Existing user: only update isAdmin, preserve isVerified
+        if (isAdmin) {
+          // Admin: always ensure isVerified is true on every login
           await db.collection('users').updateOne(
             { email: user.email },
             {
               $set: {
-                isAdmin: isAdmin,
+                isAdmin: true,
+                isVerified: true,
               },
             }
           );
-          console.log('Existing user sign in:', user.email, 'isAdmin:', isAdmin, 'isVerified preserved');
-        } else {
-          // New user: set both isAdmin and initial isVerified status
+          console.log('Admin sign in:', user.email, 'isAdmin: true, isVerified: true');
+        } else if (existingUser) {
+          // Non-admin existing user: only update isAdmin, preserve isVerified
           await db.collection('users').updateOne(
             { email: user.email },
             {
               $set: {
-                isAdmin: isAdmin,
-                // Admin is auto-verified, others start as unverified
-                isVerified: isAdmin ? true : false,
+                isAdmin: false,
+              },
+            }
+          );
+          console.log('Existing user sign in:', user.email, 'isAdmin: false, isVerified preserved');
+        } else {
+          // Non-admin new user: set isAdmin false and isVerified false
+          await db.collection('users').updateOne(
+            { email: user.email },
+            {
+              $set: {
+                isAdmin: false,
+                isVerified: false,
               },
             },
             { upsert: false }
           );
-          console.log('New user created:', user.email, 'isAdmin:', isAdmin, 'isVerified:', isAdmin);
+          console.log('New user created:', user.email, 'isAdmin: false, isVerified: false');
         }
         
         return true;
