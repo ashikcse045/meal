@@ -3,6 +3,9 @@ import { getDatabase } from '@/lib/mongodb';
 import { auth } from '@/lib/auth';
 import { ObjectId } from 'mongodb';
 
+// Force this route to be dynamic (no caching)
+export const dynamic = 'force-dynamic';
+
 // PUT - Update a deposit
 export async function PUT(
   request: NextRequest,

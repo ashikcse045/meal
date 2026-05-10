@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
 import { auth } from '@/lib/auth';
 
+// Force this route to be dynamic (no caching)
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch all users (admin only)
 export async function GET(request: NextRequest) {
   try {

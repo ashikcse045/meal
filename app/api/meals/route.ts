@@ -3,6 +3,9 @@ import { getDatabase } from '@/lib/mongodb';
 import { auth } from '@/lib/auth';
 import { ObjectId } from 'mongodb';
 
+// Force this route to be dynamic (no caching)
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch all meals for the authenticated user
 export async function GET(request: NextRequest) {
   try {

@@ -24,21 +24,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Check if user is admin
         const isAdmin = user.email === process.env.ADMIN_EMAIL;
         
-        // Update user in database with admin status
         const db = await getDatabase();
-        await db.collection('users').updateOne(
-          { email: user.email },
-          {
-            $set: {
-              isAdmin: isAdmin,
-              // Admin is auto-verified, others start as unverified
-              isVerified: isAdmin ? true : false,
-            },
-          },
-          { upsert: false }
-        );
         
-        console.log('User sign in:', user.email, 'isAdmin:', isAdmin, 'isVerified:', isAdmin);
+        // Check if user already exists
+        const existingUser = await db.collection('users').findOne({ email: user.email });
+        
+        if (existingUser) {
+          // Existing user: only update isAdmin, preserve isVerified
+          await db.collection('users').updateOne(
+            { email: user.email },
+            {
+              $set: {
+                isAdmin: isAdmin,
+              },
+            }
+          );
+          console.log('Existing user sign in:', user.email, 'isAdmin:', isAdmin, 'isVerified preserved');
+        } else {
+          // New user: set both isAdmin and initial isVerified status
+          await db.collection('users').updateOne(
+            { email: user.email },
+            {
+              $set: {
+                isAdmin: isAdmin,
+                // Admin is auto-verified, others start as unverified
+                isVerified: isAdmin ? true : false,
+              },
+            },
+            { upsert: false }
+          );
+          console.log('New user created:', user.email, 'isAdmin:', isAdmin, 'isVerified:', isAdmin);
+        }
+        
         return true;
       } catch (error) {
         console.error('Error in signIn callback:', error);
