@@ -35,5 +35,6 @@ export default clientPromise;
 
 export async function getDatabase(): Promise<Db> {
   const client = await clientPromise;
-  return client.db('meal_management');
+  const dbName = process.env.MONGODB_DB_NAME || 'meal_prod';
+  return client.db(dbName);
 }
